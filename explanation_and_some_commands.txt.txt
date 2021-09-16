@@ -98,6 +98,20 @@ PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm package .\k8s-hello-app\
 Successfully packaged chart and saved it to: C:\Users\anil\k8sTrials\k8s-hello-app-helm\k8s-hello-app-0.1.0.tgz
 PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
 
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm install k8s-hello-app .\k8s-hello-app-0.1.0.tgz
+NAME: k8s-hello-app
+LAST DEPLOYED: Thu Sep 16 15:51:23 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace default svc -w k8s-hello-app'
+  export SERVICE_IP=$(kubectl get svc --namespace default k8s-hello-app --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+  echo http://$SERVICE_IP:8080
+
+
 PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
 PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl get service
 NAME            TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
