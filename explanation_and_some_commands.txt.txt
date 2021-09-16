@@ -1,0 +1,114 @@
+## environment Windows
+## docker desktop installed
+## minikube installed
+## helm installed
+
+## target: 
+## Deploy helloapp gcr.io/google-samples/hello-app:2.0 to your cluster. 
+## Expose the service and test it with the curl request: curl http://<ip address of exposed service>:8080.
+
+## hello-app deployed by using helm with deployment/replicas
+## LoadBalancer service used
+## curl image used for testing
+## packaged with helm
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm install k8s-hello-app .\k8s-hello-app\ --values .\k8s-hello-app\values.yaml  
+NAME: k8s-hello-app
+LAST DEPLOYED: Thu Sep 16 14:37:08 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace default svc -w k8s-hello-app'
+  export SERVICE_IP=$(kubectl get svc --namespace default k8s-hello-app --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+  echo http://$SERVICE_IP:8080
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>                                                                                                                                                                                                                  
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+k8s-hello-app-668b897fd4-c4mkb   1/1     Running   0          90s
+k8s-hello-app-668b897fd4-dm8rs   1/1     Running   0          90s
+k8s-hello-app-668b897fd4-kfrsf   1/1     Running   0          90s
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm test k8s-hello-app                                                                                                                                                                                             
+NAME: k8s-hello-app
+LAST DEPLOYED: Thu Sep 16 14:37:08 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE:     k8s-hello-app-test-connection
+Last Started:   Thu Sep 16 14:38:57 2021
+Last Completed: Thu Sep 16 14:38:58 2021
+Phase:          Succeeded
+NOTES:
+1. Get the application URL by running these commands:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace default svc -w k8s-hello-app'
+  export SERVICE_IP=$(kubectl get svc --namespace default k8s-hello-app --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+  echo http://$SERVICE_IP:8080
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>                                                                                                                                                                                                                   
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl get pods                                                                                                                                                                                                    
+NAME                             READY   STATUS      RESTARTS   AGE
+k8s-hello-app-668b897fd4-c4mkb   1/1     Running     0          115s
+k8s-hello-app-668b897fd4-dm8rs   1/1     Running     0          115s
+k8s-hello-app-668b897fd4-kfrsf   1/1     Running     0          115s
+k8s-hello-app-test-connection    0/1     Completed   0          6s
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>                                                                                                                                                                                                                     
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl logs k8s-hello-app-test-connection                                                                                                                                                                            
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    70  100    70    0     0  53110      0 --:--:-- --:--:-- --:--:-- 70000
+Hello, world!
+Version: 2.0.0
+Hostname: k8s-hello-app-668b897fd4-c4mkb
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm test k8s-hello-app                                                                                                                                                                                             
+NAME: k8s-hello-app
+LAST DEPLOYED: Thu Sep 16 14:37:08 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE:     k8s-hello-app-test-connection
+Last Started:   Thu Sep 16 14:39:39 2021
+Last Completed: Thu Sep 16 14:39:41 2021
+Phase:          Succeeded
+NOTES:
+1. Get the application URL by running these commands:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace default svc -w k8s-hello-app'
+  export SERVICE_IP=$(kubectl get svc --namespace default k8s-hello-app --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+  echo http://$SERVICE_IP:8080
+  
+ 
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl logs k8s-hello-app-test-connection                                                                                                                                                                            
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+Hello, world!
+Version: 2.0.0
+Hostname: k8s-hello-app-668b897fd4-kfrsf
+100    70  100    70    0     0  67437      0 --:--:-- --:--:-- --:--:-- 70000
+
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm package .\k8s-hello-app\
+Successfully packaged chart and saved it to: C:\Users\anil\k8sTrials\k8s-hello-app-helm\k8s-hello-app-0.1.0.tgz
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
+
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl get service
+NAME            TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+k8s-hello-app   LoadBalancer   10.99.189.93   <pending>     8080:30630/TCP   3m26s
+kubernetes      ClusterIP      10.96.0.1      <none>        443/TCP          3h1m
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl get pods
+NAME                            READY   STATUS    RESTARTS   AGE
+k8s-hello-app-bcd7d596d-g9blt   1/1     Running   0          3m37s
+k8s-hello-app-bcd7d596d-jvv26   1/1     Running   0          3m37s
+k8s-hello-app-bcd7d596d-krnf4   1/1     Running   0          3m37s
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm uninstall k8s-hello-app
+release "k8s-hello-app" uninstalled
