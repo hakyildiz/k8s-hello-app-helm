@@ -33,6 +33,11 @@ k8s-hello-app-668b897fd4-dm8rs   1/1     Running   0          90s
 k8s-hello-app-668b897fd4-kfrsf   1/1     Running   0          90s
 PS C:\Users\anil\k8sTrials\k8s-hello-app-helm>
 
+PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> kubectl get service
+NAME            TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+k8s-hello-app   LoadBalancer   10.110.108.250   <pending>     8080:32380/TCP   19s
+kubernetes      ClusterIP      10.96.0.1        <none>        443/TCP          3h34m
+
 PS C:\Users\anil\k8sTrials\k8s-hello-app-helm> helm test k8s-hello-app                                                                                                                                                                                             
 NAME: k8s-hello-app
 LAST DEPLOYED: Thu Sep 16 14:37:08 2021
